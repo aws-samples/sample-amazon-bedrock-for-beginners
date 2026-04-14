@@ -1,4 +1,4 @@
-# Amazon Bedrock for Beginners – From First Prompt to AI Agent — Sample Code and Walkthrough
+# Amazon Bedrock for Beginners – From First Prompt to AI Agent
 
 Companion repo for the YouTube video: **Amazon Bedrock for Beginners – From First Prompt to AI Agent (Full Tutorial)**
 
