@@ -299,11 +299,41 @@ Make sure you synced the data source after uploading files. Go to the Knowledge 
 **Guardrail doesn't block anything**
 Make sure you created a version (not just a draft) and the version number in the script matches. Also verify your denied topic description is broad enough to catch the test prompt.
 
+## Alternative: Managed Knowledge Base (Simpler Setup)
+
+Instead of the S3 Vectors approach above, you can use a **Managed Knowledge Base** which requires even less configuration:
+
+1. Create a Managed Knowledge Base in the [Amazon Bedrock console](https://console.aws.amazon.com/bedrock/)
+2. This skips the vector store and embedding model configuration entirely — Bedrock handles everything
+3. Select your data source type (S3, Web Crawler, Confluence, etc.) and configure connection
+4. Click **Create Knowledge Base**, wait 2-5 minutes, then sync your data source
+
+The `knowledge_base_query.py` script works the same way with both types. The retriever automatically uses `managedSearchConfiguration` for managed KBs.
+
+Managed KBs are recommended for beginners because:
+- No vector database to configure or pay for separately
+- No embedding model selection needed
+- Automatic chunking and indexing
+- Supports agentic retrieval with intelligent query decomposition
+
+> **Note:** Managed KBs require `boto3 >= 1.43` for managed search and agentic retrieval.
+
+### Reranking Options
+
+Managed KBs use a service-managed reranker by default. You can customize this in the `managedSearchConfiguration`:
+- `"rerankingModelType": "MANAGED"` (default) — automatic reranking, no config needed
+- `"rerankingModelType": "NONE"` — disable reranking
+- `"rerankingModelType": "CUSTOM"` — use your own Bedrock reranking model (e.g., Cohere Rerank v3.5)
+
 ## Resources
 
 - [Amazon Bedrock Documentation](https://docs.aws.amazon.com/bedrock/)
 - [Bedrock Supported Models & IDs](https://docs.aws.amazon.com/bedrock/latest/userguide/model-ids.html)
 - [Bedrock Knowledge Bases Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html)
+- [Build a Managed Knowledge Base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-build-managed.html)
+- [Create a Managed Knowledge Base](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-managed-create.html)
+- [Query a Knowledge Base (Retrieve API)](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-retrieve.html)
+- [Agentic Retrieval](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-agentic.html)
 - [Bedrock Guardrails Guide](https://docs.aws.amazon.com/bedrock/latest/userguide/guardrails.html)
 - [Strands Agents SDK](https://strandsagents.com/)
 - [Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
