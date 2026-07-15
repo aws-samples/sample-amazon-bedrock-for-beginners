@@ -1,4 +1,5 @@
 import boto3
+from botocore.config import Config
 
 # REPLACE THIS with your Knowledge Base ID
 KNOWLEDGE_BASE_ID = ""  # Example: "ABCDEFGHIJ"
