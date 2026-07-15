@@ -1,4 +1,5 @@
 import boto3
+from botocore.config import Config
 
 # REPLACE THIS with your Managed Knowledge Base ID
 MANAGED_KNOWLEDGE_BASE_ID = ""  # Example: "ABCDEFGHIJ"
@@ -10,7 +11,11 @@ def query_managed_knowledge_base(question, num_results=5):
     Managed Knowledge Bases use managedSearchConfiguration (not vectorSearchConfiguration).
     Note: retrieve_and_generate() is NOT supported for managed KBs.
     """
-    client = boto3.client('bedrock-agent-runtime', region_name='us-west-2')
+    client = boto3.client(
+    'bedrock-agent-runtime',
+    region_name='us-west-2',
+    config=Config(user_agent_extra='aws-samples-beginners/bedrock-kb'),
+)
 
     print("Querying Managed Knowledge Base")
     print("=" * 60)
@@ -60,7 +65,11 @@ if __name__ == "__main__":
     print("OPTIONAL: Agentic Retrieval (query decomposition + reranking)")
     print("=" * 60)
     try:
-        client = boto3.client('bedrock-agent-runtime', region_name='us-west-2')
+        client = boto3.client(
+    'bedrock-agent-runtime',
+    region_name='us-west-2',
+    config=Config(user_agent_extra='aws-samples-beginners/bedrock-kb'),
+)
         response = client.agentic_retrieve_stream(
             messages=[{"content": {"text": "What are the key benefits of managed knowledge bases?"}, "role": "user"}],
             retrievers=[{
